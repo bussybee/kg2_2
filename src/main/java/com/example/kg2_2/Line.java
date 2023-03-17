@@ -7,7 +7,7 @@ import static java.lang.Math.round;
 
 public class Line {
     private final int x1, y1, x2, y2;
-    private final Color color1,  color2;
+    private final Color color1, color2;
 
     public Line(PixelInfo firstPoint, PixelInfo secondPoint) {
         this.x1 = firstPoint.getX();
@@ -21,7 +21,6 @@ public class Line {
     public void drawLine(PixelDrawer pd) {
         int dx = x2 - x1;
         int dy = y2 - y1;
-
         int steps = Math.max(abs(dx), abs(dy));
 
         if (steps == 0) {
@@ -43,12 +42,9 @@ public class Line {
 
     private javafx.scene.paint.Color getInterpolationColor(int currentX, int currentY) {
         double alpha, beta;
-
         double centerY = currentY >> 1;
         double centerX = currentX >> 1;
-
         double numerator = x1 * (currentY - y2) + currentX * (y2 - y1) + x2 * (y1 - currentY);
-
         double denominator = x1 * (centerY - y2) + centerX * (y2 - y1) + x2 * (y1 - centerY);
 
         beta = numerator / denominator;
@@ -59,16 +55,16 @@ public class Line {
             alpha = (currentX - x2 - beta * (centerX - x2)) / (x1 - x2);
         }
 
-        float r = (float) ((alpha * color1.getRed()) + (beta * ((color1.getRed() + color2.getRed())/2)) + ((1 - alpha - beta) * color2.getRed()));
+        float r = (float) ((alpha * color1.getRed()) + (beta * ((color1.getRed() + color2.getRed()) / 2)) + ((1 - alpha - beta) * color2.getRed()));
         r = getGoodValue(r);
 
-        float g = (float) ((alpha * color1.getGreen()) + (beta * ((color1.getGreen() + color2.getGreen())/2)) + ((1 - alpha - beta) * color2.getGreen()));
+        float g = (float) ((alpha * color1.getGreen()) + (beta * ((color1.getGreen() + color2.getGreen()) / 2)) + ((1 - alpha - beta) * color2.getGreen()));
         g = getGoodValue(g);
 
-        float b = (float) ((alpha * color1.getBlue()) + (beta * ((color1.getBlue() + color2.getBlue())/2)) + ((1 - alpha - beta) * color2.getBlue()));
+        float b = (float) ((alpha * color1.getBlue()) + (beta * ((color1.getBlue() + color2.getBlue()) / 2)) + ((1 - alpha - beta) * color2.getBlue()));
         b = getGoodValue(b);
 
-        return new javafx.scene.paint.Color(r, g, b,1);
+        return new javafx.scene.paint.Color(r, g, b, 1);
     }
 
     private float getGoodValue(float color) {
